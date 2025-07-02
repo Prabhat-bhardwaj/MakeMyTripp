@@ -1,0 +1,5 @@
+Pages\LoginPage.class
+Utilities\ConfigReader.class
+Base\DemoExcel.class
+Base\TestBase.class
+Pages\contactPage.class
