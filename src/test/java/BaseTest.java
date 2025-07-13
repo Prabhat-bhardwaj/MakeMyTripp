@@ -22,19 +22,21 @@ public class BaseTest {
 		driver = new ChromeDriver(options);
 		driver.manage().window().maximize();
 
-		driver.get("https://parabank.parasoft.com/parabank/index.htm");
+		driver.get("https://automationexercise.com/");
 	}
 
 	public void doLogin(String username, String password) throws InterruptedException {
 
 		LoginPage login = new LoginPage(driver);
 		Thread.sleep(2000);
+		login.clickLogin();
+		Thread.sleep(2000);
 		login.enterEmail(username);
 		login.enterPassword(password);
 		login.clickSubmit();
 		Thread.sleep(2000);
-		String expText = "Log Out";
-		Assert.assertEquals(login.verifyWelcomeText().trim(), expText);
+		String expText = "Logout";
+		Assert.assertEquals(login.verifyLogoutText().trim(), expText);
 	}
 
 	@AfterClass

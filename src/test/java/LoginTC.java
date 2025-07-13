@@ -9,12 +9,14 @@ public class LoginTC extends BaseTest {
 	public void loginTest() throws InterruptedException {
 		LoginPage loginPage = new LoginPage(driver);
 		Thread.sleep(2000);
-		loginPage.enterEmail("prabhat");
+		loginPage.clickLogin();
+		Thread.sleep(2000);
+		loginPage.enterEmail("prabhat9759@gmail.com");
 		loginPage.enterPassword("Test@123");
 		loginPage.clickSubmit();
 		Thread.sleep(2000);
-		String expText = "Welcome Prabhat Bhardwaj";
-		Assert.assertEquals(loginPage.verifyWelcomeText().trim(), expText);
+		String expText = "Logout";
+		Assert.assertEquals(loginPage.verifyLogoutText().trim(), expText);
 	}
 
 }

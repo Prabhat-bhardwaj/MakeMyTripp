@@ -9,16 +9,19 @@ public class LoginPage {
 
 	WebDriver driver;
 
-	@FindBy(xpath = "//input[@name='username']")
+	@FindBy(xpath = "//a[text()=' Signup / Login']")
+	private WebElement signup;
+
+	@FindBy(xpath = "//input[@data-qa='login-email']")
 	private WebElement email;
 
-	@FindBy(xpath = "//input[@name='password']")
+	@FindBy(xpath = "//input[@data-qa='login-password']")
 	private WebElement password;
 
-	@FindBy(xpath = "//input[@type='submit']")
+	@FindBy(xpath = "//button[@data-qa='login-button']")
 	private WebElement submit;
 
-	@FindBy(xpath = "//a[text()='Log Out']")
+	@FindBy(xpath = "//a[text()=' Logout']")
 	private WebElement actualText;
 
 	public LoginPage(WebDriver driver) {
@@ -26,6 +29,11 @@ public class LoginPage {
 		this.driver = driver;
 		PageFactory.initElements(driver, this);
 
+	}
+
+	public void clickLogin() {
+
+		signup.click();
 	}
 
 	public void enterEmail(String Email) {
@@ -41,7 +49,7 @@ public class LoginPage {
 		submit.click();
 	}
 
-	public String verifyWelcomeText() {
+	public String verifyLogoutText() {
 		return actualText.getText();
 	}
 }
