@@ -1,12 +1,11 @@
 import java.util.Map;
-
+import org.testng.annotations.Listeners;
+import listeners.TestListener; 
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import java.util.HashMap;
-import java.util.Map;
-
 import Pages.productDetails;
 
+@Listeners(TestListener.class)
 public class ProductDetailsTC extends BaseTest {
 
 	@Test

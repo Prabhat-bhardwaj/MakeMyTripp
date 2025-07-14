@@ -22,7 +22,10 @@ public class BaseTest {
 		driver = new ChromeDriver(options);
 		driver.manage().window().maximize();
 
+		driver.manage().timeouts().pageLoadTimeout(java.time.Duration.ofSeconds(60));
+		System.out.println("Navigating to site...");
 		driver.get("https://automationexercise.com/");
+		System.out.println("Page loaded.");
 	}
 
 	public void doLogin(String username, String password) throws InterruptedException {
