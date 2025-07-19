@@ -1,33 +1,59 @@
 package listeners;
 
+import com.aventstack.extentreports.ExtentReports;
+import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.Status;
+
+import Tests.BaseTest;
+import Utilities.ExtentManager;
+
+import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
 
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class TestListener implements ITestListener {
 
-	@Override
+	private static ExtentReports extent = ExtentManager.getInstance();
+	private static ThreadLocal<ExtentTest> testThread = new ThreadLocal<>();
+
 	public void onTestStart(ITestResult result) {
-		System.out.println("Test Started: " + result.getMethod().getMethodName());
+		ExtentTest test = extent.createTest(result.getMethod().getMethodName());
+		testThread.set(test);
 	}
 
-	@Override
 	public void onTestSuccess(ITestResult result) {
-		System.out.println("Test Passed: " + result.getMethod().getMethodName());
+		testThread.get().log(Status.PASS, "Test Passed");
 	}
 
-	@Override
 	public void onTestFailure(ITestResult result) {
-		System.out.println("Test Failed: " + result.getMethod().getMethodName());
-		// Optional: You can add screenshot capture code here if using Selenium
+		testThread.get().log(Status.FAIL, "Test Failed: " + result.getThrowable());
+
+		Object currentClass = result.getInstance();
+		WebDriver driver = ((BaseTest) currentClass).getDriver();
+
+		// Screenshot logic
+		File src = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+		String path = System.getProperty("user.dir") + "/screenshots/" + result.getMethod().getMethodName() + "_"
+				+ new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".png";
+		try {
+			Files.copy(src.toPath(), new File(path).toPath());
+			testThread.get().addScreenCaptureFromPath(path);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
-	@Override
-	public void onTestSkipped(ITestResult result) {
-		System.out.println("Test Skipped: " + result.getMethod().getMethodName());
-	}
-
-	@Override
-	public void onTestFailedButWithinSuccessPercentage(ITestResult result) {
-		// Optional - you can leave this empty unless needed
+	public void onFinish(ITestContext context) {
+		extent.flush();
 	}
 }

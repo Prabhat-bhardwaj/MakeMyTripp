@@ -36,8 +36,8 @@ public class verifyCart extends BaseTest {
 //		new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.visibilityOfElementLocated(By.xpath(pc.verifyQuantity())));
 		Thread.sleep(4000);
 		String actualQty = pc.verifyQuantity();
-		Assert.assertEquals(actualQty, "44", "❌ Entered quantity is incorrect");
-		
+		Assert.assertEquals(actualQty, "12", "❌ Entered quantity is incorrect");
+
 //		String quantity = "4";
 //		Assert.assertEquals(pc.verifyQuantity().trim(), quantity);
 

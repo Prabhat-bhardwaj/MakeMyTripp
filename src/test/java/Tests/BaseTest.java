@@ -1,18 +1,21 @@
 package Tests;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 
 import Pages.LoginPage;
 
 public class BaseTest {
 
-	protected WebDriver driver;
+	public WebDriver driver;
 
-	@BeforeClass
+	@BeforeMethod
 	public void setup() {
 
 		System.setProperty("webdriver.chrome.driver",
@@ -43,10 +46,14 @@ public class BaseTest {
 		Assert.assertEquals(login.verifyLogoutText().trim(), expText);
 	}
 
-	@AfterClass
+	@AfterMethod
 	public void tearDown() {
 		if (driver != null) {
 			driver.quit();
 		}
+	}
+
+	public WebDriver getDriver() {
+		return driver;
 	}
 }
