@@ -26,34 +26,63 @@ public class TestListener implements ITestListener {
 	private static ExtentReports extent = ExtentManager.getInstance();
 	private static ThreadLocal<ExtentTest> testThread = new ThreadLocal<>();
 
+	@Override
 	public void onTestStart(ITestResult result) {
+		System.out.println("onTestStart: " + result.getMethod().getMethodName());
 		ExtentTest test = extent.createTest(result.getMethod().getMethodName());
 		testThread.set(test);
 	}
 
+	@Override
 	public void onTestSuccess(ITestResult result) {
-		testThread.get().log(Status.PASS, "Test Passed");
-	}
-
-	public void onTestFailure(ITestResult result) {
-		testThread.get().log(Status.FAIL, "Test Failed: " + result.getThrowable());
-
-		Object currentClass = result.getInstance();
-		WebDriver driver = ((BaseTest) currentClass).getDriver();
-
-		// Screenshot logic
-		File src = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-		String path = System.getProperty("user.dir") + "/screenshots/" + result.getMethod().getMethodName() + "_"
-				+ new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".png";
-		try {
-			Files.copy(src.toPath(), new File(path).toPath());
-			testThread.get().addScreenCaptureFromPath(path);
-		} catch (IOException e) {
-			e.printStackTrace();
+		
+		ExtentTest test = testThread.get();
+		if (test != null) {
+			test.log(Status.PASS, "Test Passed");
 		}
 	}
 
+	@Override
+	public void onTestFailure(ITestResult result) {
+		System.out.println("onTestFailure: " + result.getMethod().getMethodName());
+		ExtentTest test = testThread.get();
+
+		if (test == null) {
+			System.out.println("testThread is null. onTestStart might not have been called.");
+			return;
+		}
+
+		test.log(Status.FAIL, "Test Failed: " + result.getThrowable());
+
+		try {
+			Object currentClass = result.getInstance();
+			WebDriver driver = ((BaseTest) currentClass).getDriver();
+
+			// Screenshot logic
+			File src = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+			String timestamp = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+			String folder = System.getProperty("user.dir") + "/screenshots/";
+			String path = folder + result.getMethod().getMethodName() + "_" + timestamp + ".png";
+
+			// Ensure folder exists
+			File screenshotsDir = new File(folder);
+			if (!screenshotsDir.exists()) {
+				screenshotsDir.mkdir();
+			}
+
+			Files.copy(src.toPath(), new File(path).toPath());
+
+			test.addScreenCaptureFromPath(path);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			test.log(Status.WARNING, "Failed to capture screenshot: " + e.getMessage());
+		}
+	}
+
+	@Override
 	public void onFinish(ITestContext context) {
+		System.out.println("onFinish: Flushing extent reports");
 		extent.flush();
 	}
 }

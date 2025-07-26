@@ -62,6 +62,11 @@ public class productDetails {
 		productsAndBrandList.put("BrandList", brandsName.getText().trim());
 		return productsAndBrandList;
 	}
+	
+	public WebElement getProductElement() {
+		
+		return products;
+	}
 
 	public void clickViewProduct() {
 

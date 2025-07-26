@@ -2,45 +2,40 @@ package Tests;
 
 import java.time.Duration;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
-
 import CartPages.productCart;
 import Pages.productDetails;
-import listeners.TestListener;
+import dataproviders.jsonDataProvider;
 
-@Listeners(TestListener.class)
+@Listeners(listeners.TestListener.class)
 public class verifyCart extends BaseTest {
 
-	@Test(dataProvider = "loginData", dataProviderClass = dataproviders.ExcelDataProviders.class)
-	public void BaseTest(String email, String pwd) throws InterruptedException {
+	@Test(dataProvider = "loginData", dataProviderClass = jsonDataProvider.class)
 
-		doLogin(email, pwd);
+	public void testVerifyCart(String username, String password) throws InterruptedException {
+		doLogin(username, password);
 		productDetails pd = new productDetails(driver);
 		productCart pc = new productCart(driver);
-		Thread.sleep(2000);
+
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+		wait.until(ExpectedConditions.elementToBeClickable(pd.getProductElement()));
+
 		pd.clickProduct();
 		pd.clickViewProduct();
-		Thread.sleep(2000);
-		pc.enterQuantity("4");
-		Thread.sleep(2000);
+		pc.enterQuantity("2");
 		pc.clickAddToCart();
-		String cartMesg = "View Cart";
-//		Assert.assertEquals(pc.verifyViewCartBtn().trim(), cartMesg);
-		Thread.sleep(2000);
+
+		wait.until(ExpectedConditions.elementToBeClickable(pc.getViewCart()));
 		pc.viewCart();
-//		new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.visibilityOfElementLocated(By.xpath(pc.verifyQuantity())));
-		Thread.sleep(4000);
+
 		String actualQty = pc.verifyQuantity();
-		Assert.assertEquals(actualQty, "12", "❌ Entered quantity is incorrect");
+		Assert.assertEquals(actualQty, "23", "Entered quantity is incorrect");
 
-//		String quantity = "4";
-//		Assert.assertEquals(pc.verifyQuantity().trim(), quantity);
-
+		wait.until(ExpectedConditions.elementToBeClickable(pc.getProceedBtn()));
 		String proceedBtn = "Proceed To Checkout";
 		Assert.assertEquals(pc.verifyProceedButton().trim(), proceedBtn);
 	}

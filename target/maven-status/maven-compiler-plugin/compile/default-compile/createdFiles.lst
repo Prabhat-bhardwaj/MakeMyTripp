@@ -1,5 +1,10 @@
-Pages\LoginPage.class
+Pages\openAccountPage.class
+CartPages\productCart.class
 Utilities\ConfigReader.class
-Base\DemoExcel.class
+Base\featureBranchTest.class
 Base\TestBase.class
+Pages\LoginPage.class
+Utilities\ExtentManager.class
+Utilities\screenshotUtil.class
 Pages\contactPage.class
+Pages\productDetails.class

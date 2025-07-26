@@ -1,2 +1,13 @@
-ContactsPageTC.class
-LoginTC.class
+Tests\LoginTC.class
+dataproviders\ExcelDataProviders.class
+Tests\ContactsPageTC.class
+Utils\JsonUtil.class
+model\loginData.class
+listeners\TestListener.class
+Tests\openAccTC.class
+dataproviders\jsonDataProvider.class
+Tests\BaseTest.class
+dataproviders\jsonDataProvider$1.class
+Tests\verifyCart.class
+Utils\ExcelUtil.class
+Tests\ProductDetailsTC.class
