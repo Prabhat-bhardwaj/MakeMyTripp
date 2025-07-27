@@ -33,7 +33,7 @@ public class verifyCart extends BaseTest {
 		pc.viewCart();
 
 		String actualQty = pc.verifyQuantity();
-		Assert.assertEquals(actualQty, "23", "Entered quantity is incorrect");
+		Assert.assertEquals(actualQty, "25", "Entered quantity is incorrect");
 
 		wait.until(ExpectedConditions.elementToBeClickable(pc.getProceedBtn()));
 		String proceedBtn = "Proceed To Checkout";
