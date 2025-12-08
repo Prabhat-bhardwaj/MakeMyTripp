@@ -1,1 +1,13 @@
-/target/
+# Build output
+target/
+
+# Test output
+test-output/
+
+# Eclipse workspace files
+.settings/
+.classpath
+.project
+
+# Screenshots
+screenshots/
