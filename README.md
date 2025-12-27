@@ -190,6 +190,7 @@ mvn clean test
 ## Author
 
 **Prabhat Bhardwaj**
+
 Senior QA / Automation Engineer
 
 GitHub: [https://github.com/Prabhat-bhardwaj](https://github.com/Prabhat-bhardwaj)
