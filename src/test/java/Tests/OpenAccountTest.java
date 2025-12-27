@@ -1,10 +1,9 @@
-package Tests;
+package tests;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import pages.openAccountPage;
 
-import Pages.openAccountPage;
-
-public class openAccTC extends BaseTest {
+public class OpenAccountTest extends BaseTest {
 
 	@Test
 	public void loginTest() throws InterruptedException {

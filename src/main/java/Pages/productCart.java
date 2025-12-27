@@ -1,13 +1,16 @@
-package CartPages;
+package pages;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
+import utils.ElementUtils;
+
 public class productCart {
 
 	WebDriver driver;
+	ElementUtils utils;
 
 	@FindBy(xpath = "//button[@type='button']")
 	WebElement addToCart;
@@ -37,6 +40,7 @@ public class productCart {
 	public productCart(WebDriver driver) {
 
 		this.driver = driver;
+		this.utils = new ElementUtils(driver);
 		PageFactory.initElements(driver, this);
 
 	}
@@ -46,13 +50,15 @@ public class productCart {
 		return viewCart;
 	}
 
-	public void enterQuantity(String n) {
+	public void enterQuantity(String qty) {
 		inputQuantity.clear();
-		inputQuantity.sendKeys(n);
+//		inputQuantity.sendKeys(n);
+		utils.sendKeys(inputQuantity, qty);
 	}
 
 	public void clickAddToCart() {
-		addToCart.click();
+//		addToCart.click();
+		utils.click(addToCart);
 	}
 
 	public String verifyViewCartBtn() {
@@ -66,17 +72,18 @@ public class productCart {
 	}
 
 	public void viewCart() {
-		viewCart.click();
+		utils.click(viewCart);
+//		viewCart.click();
 	}
 
 	public String verifyQuantity() {
-
-		return verifyQuantity.getText();
+		return utils.getText(verifyQuantity);
+//		return verifyQuantity.getText();
 	}
 
 	public String verifyProceedButton() {
-
-		return verifyProceedToCheckout.getText();
+		return utils.getText(verifyProceedToCheckout);
+//		return verifyProceedToCheckout.getText();
 	}
 
 }

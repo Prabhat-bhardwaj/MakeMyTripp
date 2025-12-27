@@ -1,5 +1,4 @@
-package Pages;
-
+package pages;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -9,94 +8,63 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
+import utils.ElementUtils;
+
 public class productDetails {
 
-	WebDriver driver;
+    private WebDriver driver;
+    private ElementUtils utils;
 
-	@FindBy(xpath = "//a[@href='/products']")
-	private WebElement products;
+    @FindBy(xpath = "//a[@href='/products']")
+    private WebElement products;
 
-	@FindBy(xpath = "//h2[text()='All Products']")
-	private WebElement allProducts;
+    @FindBy(xpath = "//a[@href='/product_details/1']")
+    private WebElement viewProduct;
 
-	@FindBy(xpath = "//div[@class='brands-name']")
-	private WebElement brandsName;
+    @FindBy(xpath = "//h2[text()='Blue Top']")
+    private WebElement name;
 
-	@FindBy(xpath = "//a[@href='/product_details/1']")
-	private WebElement viewProduct;
+    @FindBy(xpath = "//p[text()='Category: Women > Tops']")
+    private WebElement category;
 
-	@FindBy(xpath = "//h2[text()='Blue Top']")
-	private WebElement name;
+    @FindBy(xpath = "//span[text()='Rs. 500']")
+    private WebElement price;
 
-	@FindBy(xpath = "//p[text()='Category: Women > Tops']")
-	private WebElement category;
+    @FindBy(xpath = "//p[contains(text(),'In Stock')]")
+    private WebElement availability;
 
-	@FindBy(xpath = "//span[text()='Rs. 500']")
-	private WebElement price;
+    @FindBy(xpath = "//p[contains(text(),'New')]")
+    private WebElement condition;
 
-	@FindBy(xpath = "//p[text()=' In Stock']")
-	private WebElement availability;
+    @FindBy(xpath = "//p[contains(text(),'Polo')]")
+    private WebElement brand;
 
-	@FindBy(xpath = "//p[text()=' New']")
-	private WebElement condition;
+    public productDetails(WebDriver driver) {
+        this.driver = driver;
+        this.utils = new ElementUtils(driver);
+        PageFactory.initElements(driver, this);
+    }
 
-	@FindBy(xpath = "//p[text()=' Polo']")
-	private WebElement brand;
+    public void clickProduct() {
+//        utils.click(products);
+    	utils.click(products);
+        utils.waitForUrlContains("/products");
+    }
 
-	public productDetails(WebDriver driver) {
+    public void clickViewProduct() {
+//        utils.jsClick(viewProduct);   // handles ads/overlays
+    	utils.click(viewProduct);
+        utils.waitForVisible(name);
+    }
 
-		this.driver = driver;
-		PageFactory.initElements(driver, this);
-
-	}
-
-	public void clickProduct() {
-
-		products.click();
-	}
-
-	public Map<String, String> verifyAllProductsAndBrandList() {
-		Map<String, String> productsAndBrandList = new HashMap<>();
-		productsAndBrandList.put("All Products", allProducts.getText().trim());
-		System.out.println(productsAndBrandList.put("BrandList", brandsName.getText().trim()));
-		productsAndBrandList.put("BrandList", brandsName.getText().trim());
-		return productsAndBrandList;
-	}
-	
-	public WebElement getProductElement() {
-		
-		return products;
-	}
-
-	public void clickViewProduct() {
-
-		viewProduct.click();
-	}
-
-	public Map<String, String> verifyProductDetails() {
-		Map<String, String> details = new HashMap<>();
-		String nameText = name.getText().trim();
-		String categoryText = category.getText().trim();
-		String priceText = price.getText().trim();
-		String availabilityText = availability.getText().trim();
-		String conditionText = condition.getText().trim();
-		String brandText = brand.getText().trim();
-		
-		System.out.println("Name: " + nameText);
-		System.out.println("Category: " + categoryText);
-		System.out.println("Price: " + priceText);
-		System.out.println("Availability: " + availabilityText);
-		System.out.println("Condition: " + conditionText);
-		System.out.println("Brand: " + brandText);
-		
-		details.put("Name", name.getText().trim());
-		details.put("Category", category.getText().trim());
-		details.put("Price", price.getText().trim());
-		details.put("Availability", availability.getText().trim());
-		details.put("Condition", condition.getText().trim());
-		details.put("Brand", brand.getText().trim());
-		return details;
-
-	}
-
+    public Map<String, String> getProductDetails() {
+        Map<String, String> details = new HashMap<>();
+        details.put("Name", utils.getText(name));
+        details.put("Category", utils.getText(category));
+        details.put("Price", utils.getText(price));
+        details.put("Availability", utils.getText(availability));
+        details.put("Condition", utils.getText(condition));
+        details.put("Brand", utils.getText(brand));
+        return details;
+    }
 }

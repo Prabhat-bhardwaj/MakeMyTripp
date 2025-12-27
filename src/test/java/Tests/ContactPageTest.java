@@ -1,16 +1,16 @@
-package Tests;
+package tests;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-import Pages.LoginPage;
+import pages.LoginPage;
 
-import Pages.contactPage;
-import Utilities.ConfigReader;
+import pages.contactPage;
+import utils.ConfigReader;
 
-public class ContactsPageTC {
+public class ContactPageTest extends BaseTest{
 
 	static WebDriver driver;
 

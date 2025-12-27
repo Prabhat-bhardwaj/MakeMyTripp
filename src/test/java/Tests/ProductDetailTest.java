@@ -1,13 +1,13 @@
-package Tests;
+package tests;
 import java.util.Map;
 import org.testng.annotations.Listeners;
 import listeners.TestListener;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import Pages.productDetails;
+import pages.productDetails;
 
 @Listeners(TestListener.class)
-public class ProductDetailsTC extends BaseTest {
+public class ProductDetailTest extends BaseTest {
 	@Test(dataProvider = "loginData", dataProviderClass = dataproviders.ExcelDataProviders.class)
 
 	public void BaseTest(String email, String pwd) throws InterruptedException {
@@ -22,7 +22,7 @@ public class ProductDetailsTC extends BaseTest {
 		pd.clickViewProduct();
 		Thread.sleep(2000);
 
-		Map<String, String> actualDetails = pd.verifyProductDetails();
+		Map<String, String> actualDetails = pd.getProductDetails();
 		Assert.assertEquals(actualDetails.get("Name"), "Blue Top");
 		Assert.assertEquals(actualDetails.get("Category"), "Category: Women > Tops");
 		Assert.assertEquals(actualDetails.get("Price"), "Rs. 500");

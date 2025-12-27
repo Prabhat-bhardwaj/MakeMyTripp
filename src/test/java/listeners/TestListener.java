@@ -4,13 +4,14 @@ import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
 
-import Tests.BaseTest;
-import Utilities.ExtentManager;
+import tests.BaseTest;
+import utils.DriverFactory;
+import utils.ExtentManager;
 
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
-
+import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
@@ -35,7 +36,7 @@ public class TestListener implements ITestListener {
 
 	@Override
 	public void onTestSuccess(ITestResult result) {
-		
+
 		ExtentTest test = testThread.get();
 		if (test != null) {
 			test.log(Status.PASS, "Test Passed");
@@ -44,39 +45,37 @@ public class TestListener implements ITestListener {
 
 	@Override
 	public void onTestFailure(ITestResult result) {
+
 		System.out.println("onTestFailure: " + result.getMethod().getMethodName());
+
 		ExtentTest test = testThread.get();
 
 		if (test == null) {
-			System.out.println("testThread is null. onTestStart might not have been called.");
+			System.out.println("testThread is null, onTestStart might not have been called.");
 			return;
 		}
 
 		test.log(Status.FAIL, "Test Failed: " + result.getThrowable());
 
 		try {
-			Object currentClass = result.getInstance();
-			WebDriver driver = ((BaseTest) currentClass).getDriver();
+			WebDriver driver = DriverFactory.getDriver();
 
-			// Screenshot logic
 			File src = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+
 			String timestamp = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
 			String folder = System.getProperty("user.dir") + "/screenshots/";
 			String path = folder + result.getMethod().getMethodName() + "_" + timestamp + ".png";
 
-			// Ensure folder exists
 			File screenshotsDir = new File(folder);
 			if (!screenshotsDir.exists()) {
-				screenshotsDir.mkdir();
+				screenshotsDir.mkdirs();
 			}
 
-			Files.copy(src.toPath(), new File(path).toPath());
-
+			FileUtils.copyFile(src, new File(path));
 			test.addScreenCaptureFromPath(path);
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			test.log(Status.WARNING, "Failed to capture screenshot: " + e.getMessage());
 		}
 	}
 

@@ -1,10 +1,9 @@
-package Tests;
+package tests;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import pages.LoginPage;
 
-import Pages.LoginPage;
-
-public class LoginTC extends BaseTest {
+public class LoginTest extends BaseTest {
 
 	@Test
 	public void loginTest() throws InterruptedException {

@@ -1,4 +1,4 @@
-package Tests;
+package tests;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -8,23 +8,26 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import io.github.bonigarcia.wdm.WebDriverManager;
 
-import Pages.LoginPage;
+import pages.LoginPage;
+import utils.DriverFactory;
 
 public class BaseTest {
 
-	public WebDriver driver;
+	protected WebDriver driver;
 
 	@BeforeMethod
 	public void setup() {
 //		System.setProperty("webdriver.chrome.driver",
 //				"C:\\Users\\qapra\\Downloads\\chrome-win64\\chrome-win64\\chromedriver.exe");
 
-		WebDriverManager.chromedriver().setup();
+//		WebDriverManager.chromedriver().setup();
+		DriverFactory.initDriver("chrome");
+		driver = DriverFactory.getDriver();
 
-		ChromeOptions options = new ChromeOptions();
-		options.addArguments("--remote-allow-origins=*");
+//		ChromeOptions options = new ChromeOptions();
+//		options.addArguments("--remote-allow-origins=*");
 
-		driver = new ChromeDriver(options);
+//		driver = new ChromeDriver(options);
 		driver.manage().window().maximize();
 		driver.manage().timeouts().pageLoadTimeout(java.time.Duration.ofSeconds(60));
 
@@ -35,6 +38,7 @@ public class BaseTest {
 
 	public void doLogin(String username, String password) throws InterruptedException {
 		LoginPage login = new LoginPage(driver);
+
 		Thread.sleep(2000);
 		login.clickLogin();
 		Thread.sleep(2000);
@@ -48,12 +52,7 @@ public class BaseTest {
 
 	@AfterMethod
 	public void tearDown() {
-		if (driver != null) {
-			driver.quit();
-		}
+		DriverFactory.quitDriver();
 	}
 
-	public WebDriver getDriver() {
-		return driver;
-	}
 }

@@ -2,7 +2,7 @@ package dataproviders;
 
 import org.testng.annotations.DataProvider;
 
-import Utils.ExcelUtil;
+import utils.ExcelUtil;
 
 import java.io.File;
 

@@ -1,6 +1,6 @@
 package dataproviders;
 
-import Utils.JsonUtil;
+import utils.JsonUtil;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.testng.annotations.DataProvider;
