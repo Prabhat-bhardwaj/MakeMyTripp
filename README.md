@@ -1,154 +1,197 @@
 # Selenium Automation Framework – MakeMyTripp
 
-## 🚀 Project Overview
+## Project Overview
 
-This repository contains a **Selenium WebDriver automation framework** developed using **Java, TestNG, and Maven**. The framework is designed to automate web application testing and follows industry best practices such as **Page Object Model (POM)**, **Data-Driven Testing**, and **centralized configuration management**.
+This document describes a **professional Selenium WebDriver automation framework** developed using **Java, TestNG, and Maven**. The framework follows **industry best practices** to ensure scalability, maintainability, and stability in real-world automation projects.
 
-The automation scripts are developed in **Eclipse IDE** using **TestNG** for test execution and management. The project includes sample automation scenarios for the **MakeMyTripp web application**, along with support for **Excel and JSON based test data**, **screenshot capture on failure**, and **structured test execution using `testng.xml`**.
+The framework automates critical user workflows such as:
 
----
+* Login validation
+* Product listing and product details verification
+* Cart validation
+* Checkout and account-related flows
 
-## 🧰 Tech Stack & Tools
-
-| Technology | Purpose |
-|-----------|---------|
-| Java | Programming Language |
-| Selenium WebDriver | Web Automation |
-| Maven | Build & Dependency Management |
-| TestNG | Test Framework |
-| Eclipse IDE | Development Environment |
-| Apache POI | Excel Data Handling |
-| JSON | Test Data Management |
-| Extent Reports | HTML Reporting |
-| Git & GitHub | Version Control |
+This project is suitable for **enterprise automation teams, interview demonstrations, and CI/CD-ready test automation setups**.
 
 ---
 
-## 🗂️ Project Structure
+## Technology Stack
 
-```text
-src/main/java
-├── base
-│   └── TestBase.java
-├── pages
-│   ├── LoginPage.java
-│   └── ProductCartPage.java
-├── utilities
-│   ├── ConfigReader.java
-│   ├── ExtentManager.java
-│   ├── ScreenshotUtil.java
-│   ├── ExcelUtil.java
-│   └── JsonUtil.java
-└── listeners
+* **Programming Language:** Java 17
+* **Automation Tool:** Selenium WebDriver
+* **Test Framework:** TestNG
+* **Build Tool:** Maven
+* **IDE:** Eclipse
+* **Reporting:** Extent Reports
+* **Data-Driven Testing:** Excel and JSON
+* **Version Control:** Git and GitHub
 
-src/main/resources
-└── config.properties
+---
 
-src/test/java
-├── tests
-│   ├── LoginTest.java
-│   └── CartTest.java
-└── dataproviders
+## Framework Design Principles
 
-src/test/resources
-├── loginData.json
-└── testng.xml
+* Page Object Model (POM)
+* Single Responsibility Principle
+* Reusable utility-driven architecture
+* Explicit waits instead of hard-coded delays
+* Clean separation between test logic and page logic
 
-pom.xml
-TestData.xlsx
+---
 
-📌 Key Features
+## Project Structure
 
-Selenium WebDriver automation using Java
+```
+MakeMyTripp
+│
+├── pom.xml
+├── README.md
+├── .gitignore
+│
+├── src/main/java
+│   ├── pages
+│   │   ├── LoginPage.java
+│   │   ├── ProductDetails.java
+│   │   ├── ProductCart.java
+│   │   ├── ContactPage.java
+│   │   └── OpenAccountPage.java
+│   │
+│   └── utils
+│       ├── DriverFactory.java
+│       ├── ElementUtils.java
+│       ├── ConfigReader.java
+│       ├── ScreenshotUtil.java
+│       ├── ExcelUtil.java
+│       └── JsonUtil.java
+│
+├── src/main/resources
+│   └── config.properties
+│
+├── src/test/java
+│   ├── tests
+│   │   ├── BaseTest.java
+│   │   ├── LoginTest.java
+│   │   ├── ProductDetailTest.java
+│   │   ├── VerifyCartTest.java
+│   │   └── OpenAccountTest.java
+│   │
+│   ├── dataproviders
+│   │   ├── ExcelDataProviders.java
+│   │   └── JsonDataProvider.java
+│   │
+│   └── listeners
+│       └── TestListener.java
+│
+└── src/test/resources
+    ├── loginData.json
+    └── testng.xml
+```
 
-Maven-based project with dependency management
+---
 
-Page Object Model (POM) for scalable and maintainable code
+## Key Framework Components
 
-Data-Driven Testing using Excel and JSON files
+### DriverFactory
 
-Centralized configuration using config.properties
+* Centralized WebDriver initialization
+* Browser selection controlled via configuration
+* Designed for parallel execution using `ThreadLocal`
 
-TestNG Listeners for execution tracking and screenshots
+### ElementUtils
 
-Automatic screenshot capture on test failure
+* Wrapper over Selenium interactions
+* Handles explicit waits for visibility and clickability
+* JavaScript fallback for blocked or intercepted elements
+* Improves overall test stability
 
+### BaseTest
 
-Structured test execution using testng.xml
+* Handles browser setup and teardown
+* Provides reusable flows such as login
+* Contains no test assertions
 
-HTML reporting using Extent Reports
+### Page Classes
 
-▶️ How to Run the Tests
-🔧 Prerequisites
+* One page = one class
+* Contains locators and page-level actions only
+* No test logic or assertions
 
-Java JDK (Java 17 or compatible)
+### Data Providers
 
-Maven
+* JSON-based login and runtime test data
+* Excel-based test scenario support
+* Integrated using TestNG `@DataProvider`
 
-Chrome Browser & compatible ChromeDriver
+### Test Listener
 
-Eclipse IDE (recommended)
+* Tracks test execution lifecycle
+* Captures screenshots on failure
+* Integrates reporting automatically
 
-▶️ Steps to Execute
+---
 
-1. Clone the repository:
-git clone https://github.com/Prabhat-bhardwaj/MakeMyTripp.git
+## Configuration Management
 
-2. Navigate to the project directory:
-cd MakeMyTripp
+All environment-level values are maintained in:
 
-3. Execute tests using Maven:
-mvn clean test
-OR run the suite directly using testng.xml from Eclipse.
-
-📊 Test Reports
-
-TestNG default reports are generated under:
-test-output/
-Extent Reports (if enabled) provide detailed HTML execution reports with screenshots for failed test cases.
-
-⚙️ Configuration Management
-
-All configurable values such as:
-
-Application URL
-
-Browser type
-
-Execution settings
-
-are managed through:
+```
 src/main/resources/config.properties
+```
 
-📂 Test Data Management
+Example configuration:
 
-Excel test data is maintained in TestData.xlsx
+```
+browser=chrome
+baseUrl=https://automationexercise.com
+```
 
-JSON test data is stored under src/test/resources
+---
 
-TestNG DataProviders are used to supply data to test cases
+## Test Execution
 
-📂 Test Data Management
+### Run Using Maven
 
-Excel test data is maintained in TestData.xlsx
+```
+mvn clean test
+```
 
-JSON test data is stored under src/test/resources
+### Run Using TestNG
 
-TestNG DataProviders are used to supply data to test cases
+* Right-click `testng.xml`
+* Select **Run As → TestNG Suite**
 
-🧑‍💻 Author
+---
 
-Prabhat Bhardwaj
-Senior QA Engineer
+## Reporting and Screenshots
 
-🔗 GitHub: https://github.com/Prabhat-bhardwaj
+* Extent Reports generated after test execution
+* Screenshots captured automatically on test failure
+* Build artifacts and reports excluded from Git
 
-🔗 LinkedIn: https://www.linkedin.com/in/qa-prabhat-bhardwaj
+---
 
-⭐ Notes
+## Best Practices Followed
 
-This framework is designed for real-world automation practice
+* No hard-coded waits in test logic
+* Clean Git history using `.gitignore`
+* Modular and scalable framework design
+* Enterprise-ready coding standards
 
-Structure aligns with enterprise-level Selenium frameworks
+---
 
-Can be extended for CI/CD integration
+## Future Enhancements
+
+* Parallel test execution
+* Jenkins CI/CD integration
+* Cross-browser testing
+* Cloud execution support
+
+---
+
+## Author
+
+**Prabhat Bhardwaj**
+Senior QA / Automation Engineer
+
+GitHub: [https://github.com/Prabhat-bhardwaj](https://github.com/Prabhat-bhardwaj)
+
+LinkedIn: [https://www.linkedin.com/in/qa-prabhat-bhardwaj](https://www.linkedin.com/in/qa-prabhat-bhardwaj)
