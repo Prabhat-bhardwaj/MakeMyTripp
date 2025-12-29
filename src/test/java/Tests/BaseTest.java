@@ -14,22 +14,14 @@ import utils.DriverFactory;
 public class BaseTest {
 
 	protected WebDriver driver;
-
+	
 	@BeforeMethod
 	public void setup() {
-//		System.setProperty("webdriver.chrome.driver",
-//				"C:\\Users\\qapra\\Downloads\\chrome-win64\\chrome-win64\\chromedriver.exe");
-
-//		WebDriverManager.chromedriver().setup();
+		
 		DriverFactory.initDriver("chrome");
 		driver = DriverFactory.getDriver();
-
-//		ChromeOptions options = new ChromeOptions();
-//		options.addArguments("--remote-allow-origins=*");
-
-//		driver = new ChromeDriver(options);
 		driver.manage().window().maximize();
-		driver.manage().timeouts().pageLoadTimeout(java.time.Duration.ofSeconds(60));
+		driver.manage().timeouts().pageLoadTimeout(java.time.Duration.ofSeconds(30));
 
 		System.out.println("Navigating to site...");
 		driver.get("https://automationexercise.com/");

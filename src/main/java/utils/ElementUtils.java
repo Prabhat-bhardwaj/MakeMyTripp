@@ -2,6 +2,8 @@ package utils;
 
 import java.time.Duration;
 
+import org.openqa.selenium.Alert;
+import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -32,6 +34,7 @@ public class ElementUtils {
         wait.until(ExpectedConditions.urlContains(value));
     }
 
+    
     // ===================== ACTIONS =====================
 
     public void click(WebElement element) {
@@ -58,4 +61,56 @@ public class ElementUtils {
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("arguments[0].click();", element);
     }
+    
+    public boolean isDisplayed(WebElement element) {
+    	try {
+    		waitForVisible(element);
+    		return element.isDisplayed();
+    	}catch(Exception e) {
+    		return false;
+    	}
+    }
+    
+    public void waitForPageLoad() {
+    	new WebDriverWait(driver, Duration.ofSeconds(10)).until(WebDriver -> ((JavascriptExecutor) WebDriver).executeScript("return document.readyState").equals("complete"));
+    }
+    
+    public void scrollIntoView(WebElement element) {
+    	JavascriptExecutor js = (JavascriptExecutor) driver;
+    	js.executeScript("arguments[0].scrollIntoView(true);", element);
+    }
+    
+    public void uploadFile(WebElement element, String filePath) {
+    	waitForVisible(element);
+    	element.sendKeys(filePath);
+    }
+    
+    public void acceptAlert() {
+    	WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+    	Alert alert = wait.until(ExpectedConditions.alertIsPresent());
+    	alert.accept();
+    }
+    
+    public void dismissAlert() {
+    	WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+    	Alert alert = wait.until(ExpectedConditions.alertIsPresent());
+    	alert.dismiss();
+    }
+    
+    public String getAlertText() {
+    	WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+    	Alert alert = wait.until(ExpectedConditions.alertIsPresent());
+    	return alert.getText();
+    }
+    
+    public void waitForPresence(By element) {
+        new WebDriverWait(driver, Duration.ofSeconds(15))
+                .until(ExpectedConditions.refreshed(
+                        ExpectedConditions.presenceOfElementLocated(element)));
+    }
+    
+    //clearAndType()
+    //clickIfVisible()
+    //getAttribute()
+
 }

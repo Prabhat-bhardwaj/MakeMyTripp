@@ -4,7 +4,7 @@ import org.testng.annotations.Listeners;
 import listeners.TestListener;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import pages.productDetails;
+import pages.ProductDetailsPage;
 
 @Listeners(TestListener.class)
 public class ProductDetailTest extends BaseTest {
@@ -13,14 +13,9 @@ public class ProductDetailTest extends BaseTest {
 	public void BaseTest(String email, String pwd) throws InterruptedException {
 
 		doLogin(email, pwd);
-		productDetails pd = new productDetails(driver);
-		Thread.sleep(2000);
+		ProductDetailsPage pd = new ProductDetailsPage(driver);
 		pd.clickProduct();
-//		String allPro = "All Products";
-//		Assert.assertEquals(pd.verifyAllProductsAndBrandList(), allPro);
-
 		pd.clickViewProduct();
-		Thread.sleep(2000);
 
 		Map<String, String> actualDetails = pd.getProductDetails();
 		Assert.assertEquals(actualDetails.get("Name"), "Blue Top");

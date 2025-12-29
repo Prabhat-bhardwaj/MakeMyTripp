@@ -1,14 +1,36 @@
-# Build / Generated files
+# ===============================
+# Maven / Build output
+# ===============================
 target/
 test-output/
+
+# ===============================
+# Screenshots & Reports
+# ===============================
 screenshots/
+extent-reports/
+reports/
 
-# IDE files
-.settings/
-PROJECT
-.classpath
-
-# Reports
-*.html
-*.xml
+# ===============================
+# Logs
+# ===============================
 *.log
+
+# ===============================
+# Eclipse / IDE files
+# ===============================
+.project
+.classpath
+.settings/
+
+# ===============================
+# OS files
+# ===============================
+.DS_Store
+Thumbs.db
+
+# ===============================
+# Temporary files
+# ===============================
+*.tmp
+*.bak

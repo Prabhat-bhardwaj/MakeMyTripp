@@ -5,9 +5,12 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
+import utils.ElementUtils;
+
 public class LoginPage {
 
-	WebDriver driver;
+	private WebDriver driver;
+	private ElementUtils utils;
 
 	@FindBy(xpath = "//a[text()=' Signup / Login']")
 	private WebElement signup;
@@ -27,29 +30,30 @@ public class LoginPage {
 	public LoginPage(WebDriver driver) {
 
 		this.driver = driver;
+		this.utils = new ElementUtils(driver);
 		PageFactory.initElements(driver, this);
 
 	}
 
 	public void clickLogin() {
-
-		signup.click();
+		utils.click(signup);
 	}
 
 	public void enterEmail(String Email) {
-		email.click();
-		email.sendKeys(Email);
+		utils.click(email);
+		utils.sendKeys(email, Email);
+
 	}
 
 	public void enterPassword(String pwd) {
-		password.sendKeys(pwd);
+		utils.sendKeys(password, pwd);
 	}
 
 	public void clickSubmit() {
-		submit.click();
+		utils.click(submit);
 	}
 
 	public String verifyLogoutText() {
-		return actualText.getText();
+		return utils.getText(actualText);
 	}
 }

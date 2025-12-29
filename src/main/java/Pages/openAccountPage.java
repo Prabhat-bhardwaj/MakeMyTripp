@@ -11,7 +11,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class openAccountPage {
+public class OpenAccountPage {
 
 	WebDriver driver;
 
@@ -36,7 +36,7 @@ public class openAccountPage {
 	@FindBy(xpath = "//p[text()='Congratulations, your account is now open.']")
 	WebElement actualText;
 
-	public openAccountPage(WebDriver driver) {
+	public OpenAccountPage(WebDriver driver) {
 		this.driver = driver;
 		PageFactory.initElements(driver, this);
 

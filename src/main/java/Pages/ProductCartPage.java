@@ -7,37 +7,34 @@ import org.openqa.selenium.support.PageFactory;
 
 import utils.ElementUtils;
 
-public class productCart {
+public class ProductCartPage {
 
-	WebDriver driver;
-	ElementUtils utils;
+	private WebDriver driver;
+	private ElementUtils utils;
+
+	// ================= Locators =================
 
 	@FindBy(xpath = "//button[@type='button']")
-	WebElement addToCart;
-	// button[@type='button']
+	private WebElement addToCart;
 
 	@FindBy(xpath = "")
-	WebElement increment;
+	private WebElement increment;
 
 	@FindBy(xpath = "//u[text()='View Cart']")
-	WebElement viewCart;
+	private WebElement viewCart;
 
 	@FindBy(xpath = "//input[@id='quantity']")
-	WebElement inputQuantity;
-
-//	@FindBy(xpath ="//p[text()='Your product has been added to cart.']")
-//	WebElement verifyCartMessage;
+	private WebElement inputQuantity;
 
 	@FindBy(xpath = "//tr[@id='product-1']//td[@class='cart_quantity']//button")
-	WebElement verifyQuantity;
+	private WebElement verifyQuantity;
 
 	@FindBy(xpath = "//a[text()='Proceed To Checkout']")
-	WebElement verifyProceedToCheckout;
+	private WebElement verifyProceedToCheckout;
 
-//	@FindBy(xpath ="//button[@class='btn btn-default cart']")
-//	WebElement addToCart;
+	// ================= Constructor =================
 
-	public productCart(WebDriver driver) {
+	public ProductCartPage(WebDriver driver) {
 
 		this.driver = driver;
 		this.utils = new ElementUtils(driver);
@@ -45,45 +42,36 @@ public class productCart {
 
 	}
 
-	public WebElement getViewCart() {
-
-		return viewCart;
-	}
+	// ================= Page Actions =================
 
 	public void enterQuantity(String qty) {
 		inputQuantity.clear();
-//		inputQuantity.sendKeys(n);
 		utils.sendKeys(inputQuantity, qty);
 	}
 
 	public void clickAddToCart() {
-//		addToCart.click();
 		utils.click(addToCart);
-	}
-
-	public String verifyViewCartBtn() {
-
-		return viewCart.getText();
-	}
-
-	public WebElement getProceedBtn() {
-
-		return verifyProceedToCheckout;
 	}
 
 	public void viewCart() {
 		utils.click(viewCart);
-//		viewCart.click();
+	}
+
+	// ================= Data / Verifications =================
+	public String getViewCartText() {
+		return utils.getText(viewCart);
 	}
 
 	public String verifyQuantity() {
 		return utils.getText(verifyQuantity);
-//		return verifyQuantity.getText();
 	}
 
 	public String verifyProceedButton() {
 		return utils.getText(verifyProceedToCheckout);
-//		return verifyProceedToCheckout.getText();
+	}
+
+	public boolean getProceedBtn() {
+		return verifyProceedToCheckout.isDisplayed();
 	}
 
 }

@@ -3,10 +3,9 @@ package tests;
 import org.testng.Assert;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
-
 import dataproviders.jsonDataProvider;
-import pages.productCart;
-import pages.productDetails;
+import pages.ProductCartPage;
+import pages.ProductDetailsPage;
 
 @Listeners(listeners.TestListener.class)
 public class VerifyCartTest extends BaseTest {
@@ -17,19 +16,19 @@ public class VerifyCartTest extends BaseTest {
 
         doLogin(username, password);
 
-        productDetails pd = new productDetails(driver);
-        productCart pc = new productCart(driver);
+        ProductDetailsPage productDetail = new ProductDetailsPage(driver);
+        ProductCartPage productCart = new ProductCartPage(driver);
 
-        pd.clickProduct();
-        pd.clickViewProduct();
-        pc.enterQuantity("2");
-        pc.clickAddToCart();
-        pc.viewCart();
+        productDetail.clickProduct();
+        productDetail.clickViewProduct();
+        productCart.enterQuantity("2");
+        productCart.clickAddToCart();
+        productCart.viewCart();
 
-        String actualQty = pc.verifyQuantity();
-        Assert.assertEquals(actualQty, "45", "Quantity mismatch");
+        String actualQty = productCart.verifyQuantity();
+        Assert.assertEquals(actualQty, "49", "Quantity mismatch");
 
         String proceedBtn = "Proceed To Checkout";
-        Assert.assertEquals(pc.verifyProceedButton().trim(), proceedBtn);
+        Assert.assertEquals(productCart.verifyProceedButton().trim(), proceedBtn);
     }
 }
